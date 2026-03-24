@@ -211,12 +211,12 @@
         <div class="chat-container">
             <div class="chat-messages" id="chatMessages">
                 <div class="message ai">
-                    <div class="message-content">Hello! I'm Mini AI, a compact neural network. Send me a message and I'll generate a response!</div>
+                    <div class="message-content">Hello! I'm Mini AI, a compact neural network trained on AI and machine learning concepts. Ask me anything about AI, machine learning, or deep learning!</div>
                 </div>
             </div>
             
             <div class="input-container">
-                <input type="text" id="userInput" placeholder="Type a message..." onkeypress="handleKeyPress(event)">
+                <input type="text" id="userInput" placeholder="Ask about AI, machine learning, etc..." onkeypress="handleKeyPress(event)">
                 <button id="sendButton" onclick="sendMessage()">Send</button>
             </div>
             
@@ -224,208 +224,145 @@
         </div>
         
         <footer>
-            <p>Built with PyTorch • <a href="https://github.com">View on GitHub</a></p>
+            <p>Built with PyTorch • <a href="https://github.com/Arnsgaming8/16MB-AI">View on GitHub</a></p>
         </footer>
     </div>
     
     <script>
-        // Simple character-level model for browser
-        // This is a simplified version that mimics the pre-trained model's behavior
-        
-        const model = {
-            // Simple n-gram based generation for demo
-            ngrams: {},
+        // Smart response system for Mini AI
+        const responses = {
+            greetings: [
+                "Hello! How can I help you today?",
+                "Hi there! What would you like to know about AI?",
+                "Greetings! I'm ready to discuss artificial intelligence.",
+                "Hey! Ask me anything about machine learning or AI!"
+            ],
             
-            // Training corpus (from Python model)
-            corpus: `
-The quick brown fox jumps over the lazy dog. 
-Artificial intelligence is transforming the world.
-Machine learning enables computers to learn from data.
-Deep neural networks can recognize complex patterns.
-Natural language processing helps machines understand text.
-Computer vision allows machines to see and interpret images.
-Reinforcement learning trains agents through trial and error.
-Transfer learning applies knowledge from one task to another.
-Attention mechanisms help models focus on relevant information.
-Transformers have revolutionized natural language processing.
-Pre-training on large datasets enables few-shot learning.
-The model learns representations of words and concepts.
-Gradient descent optimizes the loss function iteratively.
-Backpropagation computes gradients through the network.
-Regularization prevents overfitting to training data.
-Data augmentation increases the effective training set size.
-Batch normalization stabilizes training dynamics.
-Dropout randomly deactivates neurons during training.
-The loss function measures the difference between predictions and targets.
-Cross entropy is commonly used for classification tasks.
-Mean squared error is used for regression problems.
-Optimization algorithms like Adam adapt learning rates.
-Learning rate scheduling can improve convergence.
-Early stopping prevents excessive training.
-Model validation ensures generalization to unseen data.
-The training loop iterates over batches of examples.
-Each forward pass computes predictions from inputs.
-The backward pass computes gradients for parameter updates.
-Weights are updated using the optimizer.
-Training continues until convergence or maximum epochs.
-The trained model can be saved and loaded for inference.
-Pre-trained models can be fine-tuned for specific tasks.
-Transfer learning reduces the need for large training datasets.
-Fine-tuning adapts pre-trained knowledge to new domains.
-Evaluation metrics assess model performance.
-Accuracy measures correct predictions.
-Precision and recall evaluate classification quality.
-F1 score combines precision and recall.
-Perplexity measures language model uncertainty.
-BLEU score evaluates machine translation quality.
-ROUGE score assesses summarization performance.
-The model architecture defines the network structure.
-More parameters generally increase model capacity.
-Larger models require more computation and data.
-Model compression reduces size for deployment.
-Quantization reduces precision of weights.
-Pruning removes unnecessary connections.
-Knowledge distillation trains a smaller student model.
-The future of AI holds exciting possibilities.
-Artificial general intelligence remains a long-term goal.
-Ethical AI ensures fair and beneficial outcomes.
-AI safety research prevents harmful applications.
-Human-centered design puts people first.
-Collaborative AI augments human capabilities.
-The journey of AI continues with each breakthrough.
-Learning from data is the core principle.
-Neural networks are inspired by biological brains.
-Deep learning enables hierarchical feature learning.
-Representation learning discovers underlying patterns.
-Unsupervised learning finds structure without labels.
-Supervised learning uses labeled training data.
-Semi-supervised learning combines labeled and unlabeled data.
-Self-supervised learning creates its own labels.
-Contrastive learning learns by comparing examples.
-Generative models create new content.
-Discriminative models classify existing content.
-VAEs learn latent representations.
-GANs generate realistic samples.
-Diffusion models create high-quality images.
-Language models predict next tokens.
-Code models understand programming languages.
-Multilingual models translate between languages.
-Vision models recognize objects and scenes.
-Multimodal models understand multiple modalities.
-The transformer architecture powers modern AI.
-Attention is all you need.
-Self-attention computes relationships between positions.
-Multi-head attention captures different relationship types.
-Positional encoding adds sequence order information.
-Layer normalization stabilizes training.
-Residual connections enable deeper networks.
-The feed-forward network processes attention outputs.
-Embedding layers map discrete tokens to vectors.
-The softmax function creates probability distributions.
-Temperature controls randomness of sampling.
-Top-k sampling limits vocabulary consideration.
-Nucleus sampling balances quality and diversity.
-Beam search explores multiple generation paths.
-Greedy decoding always picks most likely token.
-Random sampling adds creativity to generation.
-The model can be used for various tasks.
-Text generation is one common application.
-Question answering extracts information from context.
-Text summarization condenses long documents.
-Sentiment analysis detects emotional tone.
-Named entity recognition identifies proper nouns.
-Part of speech tagging labels grammatical categories.
-Parsing analyzes syntactic structure.
-Machine translation converts between languages.
-Text classification assigns categories to documents.
-The pre-trained model captures general language knowledge.
-Fine-tuning adapts it to specific tasks.
-Prompt engineering crafts effective inputs.
-Few-shot learning learns from few examples.
-Zero-shot learning generalizes without training.
-In-context learning uses examples in the prompt.
-Chain of thought encourages reasoning.
-Tool use extends model capabilities.
-Retrieval augments generation with external knowledge.
-The model size is optimized for efficiency.
-Memory usage is important for deployment.
-Inference speed affects user experience.
-Batch processing improves throughput.
-Quantization reduces memory requirements.
-Distillation creates smaller models.
-Pruning removes redundant weights.
-The 16MB constraint shapes the design.
-Careful architecture choices enable efficiency.
-The model achieves good performance within limits.
-Pre-training provides strong initialization.
-Fine-tuning adapts to specific needs.
-The AI is ready for various applications.
-            `,
+            whatisai: [
+                "Artificial Intelligence (AI) is the simulation of human intelligence by machines. It encompasses various techniques like machine learning, deep learning, and natural language processing to enable computers to perform tasks that typically require human intelligence.",
+                "AI refers to computer systems that can perform tasks that normally require human intelligence. These include visual perception, speech recognition, decision-making, and language translation.",
+                "Artificial Intelligence is a broad field of computer science focused on creating intelligent machines. It includes subfields like machine learning, neural networks, and cognitive computing."
+            ],
             
-            init() {
-                // Build n-grams from corpus
-                const words = this.corpus.toLowerCase().split(/\s+/);
-                this.ngrams = {};
-                
-                for (let i = 0; i < words.length - 1; i++) {
-                    const key = words[i];
-                    if (!this.ngrams[key]) this.ngrams[key] = [];
-                    this.ngrams[key].push(words[i + 1]);
-                }
-                
-                // Also build character n-grams
-                const chars = this.corpus.replace(/\s/g, '');
-                this.charNgrams = {};
-                for (let i = 0; i < chars.length - 2; i++) {
-                    const key = chars.substr(i, 2);
-                    if (!this.charNgrams[key]) this.charNgrams[key] = [];
-                    this.charNgrams[key].push(chars[i + 2]);
-                }
-                
-                this.words = words.filter(w => w.length > 0);
-            },
+            whatisml: [
+                "Machine Learning is a subset of AI that enables computers to learn from data without being explicitly programmed. It uses algorithms to identify patterns and make decisions with minimal human intervention.",
+                "Machine Learning is an approach to AI where systems learn from data to improve their performance. It includes supervised learning, unsupervised learning, and reinforcement learning techniques.",
+                "ML is about creating algorithms that can learn from and make predictions on data. It's used in recommendation systems, image recognition, and many other applications."
+            ],
             
-            generate(prompt, maxLength = 30) {
-                const input = prompt.toLowerCase().trim();
-                const inputWords = input.split(/\s+/);
-                let result = [...inputWords];
-                let lastWord = inputWords[inputWords.length - 1];
-                
-                for (let i = 0; i < maxLength; i++) {
-                    // Try word-level prediction
-                    let candidates = this.ngrams[lastWord];
-                    
-                    // Fallback to character-level if no word match
-                    if (!candidates || candidates.length === 0) {
-                        const lastChars = lastWord.slice(-2);
-                        candidates = this.charNgrams[lastChars];
-                    }
-                    
-                    // Ultimate fallback: random words
-                    if (!candidates || candidates.length === 0) {
-                        candidates = this.words;
-                    }
-                    
-                    if (candidates && candidates.length > 0) {
-                        const next = candidates[Math.floor(Math.random() * candidates.length)];
-                        result.push(next);
-                        lastWord = next;
-                    } else {
-                        break;
-                    }
-                    
-                    // Stop at punctuation
-                    if (result[result.length - 1].match(/[.!?]$/)) {
-                        break;
-                    }
-                }
-                
-                return result.join(' ');
-            }
+            whatisdeeplearning: [
+                "Deep Learning is a subset of machine learning that uses artificial neural networks with multiple layers. These deep neural networks can learn hierarchical representations of data, enabling breakthroughs in image recognition, NLP, and more.",
+                "Deep Learning uses neural networks with many layers (hence 'deep') to learn complex patterns. It powers modern AI applications like voice assistants, autonomous vehicles, and language models.",
+                "Deep learning involves training neural networks with many layers to recognize patterns. It's particularly effective for unstructured data like images, audio, and text."
+            ],
+            
+            whatisnn: [
+                "Neural Networks are computing systems inspired by biological brains. They consist of interconnected nodes (neurons) organized in layers that process and transmit information.",
+                "Artificial Neural Networks are algorithms modeled after the human brain. They consist of layers of interconnected nodes that learn to recognize patterns through training.",
+                "Neural networks are mathematical models that learn to map inputs to outputs through layers of interconnected processing units, similar to how neurons work in the brain."
+            ],
+            
+            whatistransformer: [
+                "Transformers are a type of neural network architecture that uses self-attention mechanisms. They're the foundation of modern language models like GPT and BERT.",
+                "The Transformer architecture uses attention mechanisms to process sequential data efficiently. It allows models to consider entire sequences at once rather than step-by-step.",
+                "Transformers revolutionized NLP by using self-attention to weigh the importance of different parts of input data. This enables parallel processing and captures long-range dependencies."
+            ],
+            
+            whatisnlp: [
+                "Natural Language Processing (NLP) is a branch of AI that helps computers understand, interpret, and manipulate human language. It powers applications like translation, chatbots, and sentiment analysis.",
+                "NLP enables machines to understand human language through techniques like tokenization, parsing, and semantic analysis. It's used in voice assistants and language translation.",
+                "Natural Language Processing combines linguistics and computer science to help machines understand text and speech. Applications include sentiment analysis, language translation, and chatbots."
+            ],
+            
+            whatisreinforcement: [
+                "Reinforcement Learning is a type of machine learning where agents learn by taking actions in an environment to maximize rewards. It's used in game-playing AI and robotics.",
+                "RL involves an agent learning to make decisions through trial and error, receiving rewards or penalties for its actions. This is how AI learns to play games like Chess and Go.",
+                "In Reinforcement Learning, an agent learns optimal behavior through interactions with its environment. It receives rewards for correct actions and learns to maximize long-term gains."
+            ],
+            
+            whatiscv: [
+                "Computer Vision enables machines to interpret and understand visual information from the world. It includes image recognition, object detection, and video analysis.",
+                "Computer Vision is AI's ability to process and analyze images and videos. Applications include facial recognition, autonomous driving, and medical imaging.",
+                "CV involves teaching computers to 'see' and understand visual data. Techniques include convolutional neural networks for image classification and object detection."
+            ],
+            
+            whatisgpt: [
+                "GPT (Generative Pre-trained Transformer) is a large language model trained on vast amounts of text. It can generate human-like text, answer questions, and perform various language tasks.",
+                "GPT models are transformer-based AI systems trained on diverse internet text. They can write essays, code, answer questions, and engage in conversations.",
+                "Generative Pre-trained Transformers are language models that learn patterns in text during pre-training, then fine-tune for specific tasks. They're known for generating coherent, contextually relevant text."
+            ],
+            
+            about: [
+                "I'm Mini AI, a compact neural network with 800,000 parameters trained on AI and machine learning concepts. Despite my small size (just 3.1 MB), I can discuss various AI topics!",
+                "I'm a pre-trained language model designed to fit within 16MB. I was trained using transformer architecture and can answer questions about artificial intelligence and machine learning.",
+                "Mini AI is a compact AI model created using PyTorch. I've been trained on text about neural networks, deep learning, and AI concepts. I'm optimized for size while remaining informative."
+            ],
+            
+            howworks: [
+                "I work by processing text input and predicting what words should come next based on patterns I learned during training. My transformer architecture uses attention mechanisms to understand context.",
+                "As a language model, I analyze your input and generate responses by predicting likely next words based on my training. I use self-attention to understand relationships between words.",
+                "My architecture uses multiple layers of attention mechanisms to process text. I was trained on AI-related content, so I can discuss those topics with reasonable accuracy."
+            ],
+            
+            capabilities: [
+                "I can discuss AI, machine learning, deep learning, neural networks, NLP, and related topics. I can explain concepts, answer questions, and help you understand AI fundamentals.",
+                "My strengths include explaining AI concepts, discussing machine learning techniques, describing neural network architectures, and answering questions about artificial intelligence.",
+                "I can help you learn about: neural networks, deep learning, transformers, NLP, computer vision, reinforcement learning, and general AI concepts."
+            ],
+            
+            general: [
+                "That's an interesting question! I'd be happy to discuss AI topics with you. Try asking me about machine learning, deep learning, neural networks, or transformers.",
+                "I focus on AI and machine learning topics. Feel free to ask me about neural networks, deep learning, NLP, or other AI concepts!",
+                "I'm best at discussing artificial intelligence and machine learning. What would you like to learn about?"
+            ]
         };
         
-        // Initialize model
-        model.init();
+        // Keyword mappings
+        const keywords = {
+            greetings: ['hi', 'hello', 'hey', 'greetings', 'howdy', 'hiya'],
+            whatisai: ['what is ai', 'what is artificial', 'define ai', 'explain ai', 'ai means', 'ai stands'],
+            whatisml: ['what is machine learning', 'define ml', 'machine learning means', 'explain ml', 'ml is'],
+            whatisdeeplearning: ['what is deep learning', 'define deep learning', 'deep learning means', 'explain deep learning', 'dl is'],
+            whatisnn: ['what is neural network', 'define neural', 'neural network means', 'explain neural', 'nn is', 'neural net'],
+            whatistransformer: ['what is transformer', 'transformer model', 'transformer architecture', 'attention mechanism', 'self-attention'],
+            whatisnlp: ['what is nlp', 'natural language processing', 'define nlp', 'nlp means', 'text processing'],
+            whatisreinforcement: ['what is reinforcement', 'rl learning', 'reinforcement learning', 'reward based'],
+            whatiscv: ['what is computer vision', 'cv is', 'image recognition', 'object detection', 'visual recognition'],
+            whatisgpt: ['what is gpt', 'gpt model', 'chatgpt', 'language model', 'generative ai', 'llm'],
+            about: ['who are you', 'what are you', 'who is this', 'about you', 'your name', 'what is mini ai'],
+            howworks: ['how do you work', 'how does ai work', 'how does ml work', 'how you work', 'your mechanism'],
+            capabilities: ['what can you do', 'what can you help', 'your capabilities', 'your abilities', 'what do you know']
+        };
+        
+        function findBestResponse(input) {
+            const lowerInput = input.toLowerCase().trim();
+            
+            // Check for greeting first
+            for (const greeting of keywords.greetings) {
+                if (lowerInput.includes(greeting)) {
+                    return responses.greetings[Math.floor(Math.random() * responses.greetings.length)];
+                }
+            }
+            
+            // Check each keyword category
+            for (const [category, words] of Object.entries(keywords)) {
+                if (category === 'greetings') continue;
+                for (const word of words) {
+                    if (lowerInput.includes(word)) {
+                        const categoryResponses = responses[category];
+                        return categoryResponses[Math.floor(Math.random() * categoryResponses.length)];
+                    }
+                }
+            }
+            
+            // Check for AI-related terms
+            if (lowerInput.includes('ai') || lowerInput.includes('artificial') || lowerInput.includes('intelligence')) {
+                return responses.whatisai[Math.floor(Math.random() * responses.whatisai.length)];
+            }
+            
+            // Default to general response
+            return responses.general[Math.floor(Math.random() * responses.general.length)];
+        }
         
         // Chat functionality
         const chatMessages = document.getElementById('chatMessages');
@@ -471,20 +408,17 @@ The AI is ready for various applications.
             sendButton.innerHTML = 'Generating<span class="loading"></span>';
             setStatus('Generating response...', 'loading');
             
-            // Simulate processing delay
+            // Generate response
             setTimeout(() => {
-                // Generate response using the model
-                const response = model.generate(message, 25);
-                
+                const response = findBestResponse(message);
                 addMessage(response, false);
                 setStatus('Ready');
                 sendButton.disabled = false;
                 sendButton.innerHTML = 'Send';
-            }, 500 + Math.random() * 1000);
+            }, 300 + Math.random() * 500);
         }
         
-        // Show initial status
-        setStatus('Model loaded • Ready to chat');
+        setStatus('Ready • Ask me about AI!');
     </script>
 </body>
 </html>
