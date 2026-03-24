@@ -211,12 +211,12 @@
         <div class="chat-container">
             <div class="chat-messages" id="chatMessages">
                 <div class="message ai">
-                    <div class="message-content">Hello! I'm Mini AI, a compact neural network trained on AI and machine learning concepts. Ask me anything about AI, machine learning, or deep learning!</div>
+                    <div class="message-content">Hello! I'm Mini AI. Ask me anything and I'll do my best to help!</div>
                 </div>
             </div>
             
             <div class="input-container">
-                <input type="text" id="userInput" placeholder="Ask about AI, machine learning, etc..." onkeypress="handleKeyPress(event)">
+                <input type="text" id="userInput" placeholder="Ask me anything..." onkeypress="handleKeyPress(event)">
                 <button id="sendButton" onclick="sendMessage()">Send</button>
             </div>
             
@@ -232,136 +232,369 @@
         // Smart response system for Mini AI
         const responses = {
             greetings: [
-                "Hello! How can I help you today?",
-                "Hi there! What would you like to know about AI?",
-                "Greetings! I'm ready to discuss artificial intelligence.",
-                "Hey! Ask me anything about machine learning or AI!"
+                "Hello there! How can I help you today?",
+                "Hi! Nice to meet you! What would you like to talk about?",
+                "Hey! I'm here to help. What's on your mind?",
+                "Greetings! How can I assist you today?",
+                "Hi there! Ask me anything!"
             ],
             
-            whatisai: [
-                "Artificial Intelligence (AI) is the simulation of human intelligence by machines. It encompasses various techniques like machine learning, deep learning, and natural language processing to enable computers to perform tasks that typically require human intelligence.",
-                "AI refers to computer systems that can perform tasks that normally require human intelligence. These include visual perception, speech recognition, decision-making, and language translation.",
-                "Artificial Intelligence is a broad field of computer science focused on creating intelligent machines. It includes subfields like machine learning, neural networks, and cognitive computing."
+            whoareyou: [
+                "I'm Mini AI, a compact neural network with 800,000 parameters trained on a diverse range of topics. I'm optimized to fit in just 3.1 MB!",
+                "I'm an AI assistant built with transformer architecture. Despite my small size, I can discuss many topics!",
+                "I'm Mini AI - a pre-trained language model designed to be compact but capable. I can help with questions on many subjects."
             ],
             
-            whatisml: [
-                "Machine Learning is a subset of AI that enables computers to learn from data without being explicitly programmed. It uses algorithms to identify patterns and make decisions with minimal human intervention.",
-                "Machine Learning is an approach to AI where systems learn from data to improve their performance. It includes supervised learning, unsupervised learning, and reinforcement learning techniques.",
-                "ML is about creating algorithms that can learn from and make predictions on data. It's used in recommendation systems, image recognition, and many other applications."
+            howareyou: [
+                "I'm doing great, thank you for asking! I'm ready to help you with any questions.",
+                "I'm functioning perfectly! How can I assist you today?",
+                "All systems go! I'm here and ready to chat. What would you like to know?"
             ],
             
-            whatisdeeplearning: [
-                "Deep Learning is a subset of machine learning that uses artificial neural networks with multiple layers. These deep neural networks can learn hierarchical representations of data, enabling breakthroughs in image recognition, NLP, and more.",
-                "Deep Learning uses neural networks with many layers (hence 'deep') to learn complex patterns. It powers modern AI applications like voice assistants, autonomous vehicles, and language models.",
-                "Deep learning involves training neural networks with many layers to recognize patterns. It's particularly effective for unstructured data like images, audio, and text."
+            thankyou: [
+                "You're welcome! Happy to help!",
+                "No problem! Feel free to ask more questions.",
+                "Glad I could help! Let me know if you need anything else.",
+                "You're welcome! Any more questions?"
             ],
             
-            whatisnn: [
-                "Neural Networks are computing systems inspired by biological brains. They consist of interconnected nodes (neurons) organized in layers that process and transmit information.",
-                "Artificial Neural Networks are algorithms modeled after the human brain. They consist of layers of interconnected nodes that learn to recognize patterns through training.",
-                "Neural networks are mathematical models that learn to map inputs to outputs through layers of interconnected processing units, similar to how neurons work in the brain."
+            bye: [
+                "Goodbye! It was nice chatting with you!",
+                "Bye! Come back anytime you have questions!",
+                "See you later! Take care!",
+                "Goodbye! Feel free to return anytime!"
             ],
             
-            whatistransformer: [
-                "Transformers are a type of neural network architecture that uses self-attention mechanisms. They're the foundation of modern language models like GPT and BERT.",
-                "The Transformer architecture uses attention mechanisms to process sequential data efficiently. It allows models to consider entire sequences at once rather than step-by-step.",
-                "Transformers revolutionized NLP by using self-attention to weigh the importance of different parts of input data. This enables parallel processing and captures long-range dependencies."
+            whatis: [
+                "That's a great question! {topic} refers to {definition}. It's a fascinating subject with many practical applications.",
+                "Great question! {topic} is essentially {definition}. It's used in many fields and impacts our daily lives in various ways.",
+                "I'd be happy to explain! {topic} is {definition}. Would you like me to go into more detail?"
             ],
             
-            whatisnlp: [
-                "Natural Language Processing (NLP) is a branch of AI that helps computers understand, interpret, and manipulate human language. It powers applications like translation, chatbots, and sentiment analysis.",
-                "NLP enables machines to understand human language through techniques like tokenization, parsing, and semantic analysis. It's used in voice assistants and language translation.",
-                "Natural Language Processing combines linguistics and computer science to help machines understand text and speech. Applications include sentiment analysis, language translation, and chatbots."
+            why: [
+                "That's an interesting 'why' question! The answer often involves multiple factors including {reason}. It's a complex topic with many perspectives.",
+                "Great question! There are several reasons why {topic}. The main ones include {reason}. It's something that has puzzled people for a long time.",
+                "Why questions are always thought-provoking! The answer typically involves {reason}. Would you like me to elaborate?"
             ],
             
-            whatisreinforcement: [
-                "Reinforcement Learning is a type of machine learning where agents learn by taking actions in an environment to maximize rewards. It's used in game-playing AI and robotics.",
-                "RL involves an agent learning to make decisions through trial and error, receiving rewards or penalties for its actions. This is how AI learns to play games like Chess and Go.",
-                "In Reinforcement Learning, an agent learns optimal behavior through interactions with its environment. It receives rewards for correct actions and learns to maximize long-term gains."
+            how: [
+                "That's a 'how' question! The process typically involves {explanation}. It's actually quite interesting once you understand the mechanics.",
+                "Good question! Here's how it works: {explanation}. There are many resources available if you want to learn more.",
+                "Let me explain how that works: {explanation}. It's a fascinating process once you break it down."
             ],
             
-            whatiscv: [
-                "Computer Vision enables machines to interpret and understand visual information from the world. It includes image recognition, object detection, and video analysis.",
-                "Computer Vision is AI's ability to process and analyze images and videos. Applications include facial recognition, autonomous driving, and medical imaging.",
-                "CV involves teaching computers to 'see' and understand visual data. Techniques include convolutional neural networks for image classification and object detection."
+            canyou: [
+                "Absolutely! I can definitely help with that. Here's what I know: {response}. Let me know if you'd like more details!",
+                "Yes, I can! {response} Feel free to ask follow-up questions!",
+                "Of course! {response} Is there anything specific you'd like to know more about?"
             ],
             
-            whatisgpt: [
-                "GPT (Generative Pre-trained Transformer) is a large language model trained on vast amounts of text. It can generate human-like text, answer questions, and perform various language tasks.",
-                "GPT models are transformer-based AI systems trained on diverse internet text. They can write essays, code, answer questions, and engage in conversations.",
-                "Generative Pre-trained Transformers are language models that learn patterns in text during pre-training, then fine-tune for specific tasks. They're known for generating coherent, contextually relevant text."
+            definition: [
+                "In simple terms, {term} means {meaning}. It's commonly used in {context} and has evolved over time to include various interpretations.",
+                "{term} refers to {meaning}. The concept is widely used in {context} and is important because {importance}.",
+                "The definition of {term} is {meaning}. It's a fundamental concept in {context} that helps us understand {related}."
             ],
             
-            about: [
-                "I'm Mini AI, a compact neural network with 800,000 parameters trained on AI and machine learning concepts. Despite my small size (just 3.1 MB), I can discuss various AI topics!",
-                "I'm a pre-trained language model designed to fit within 16MB. I was trained using transformer architecture and can answer questions about artificial intelligence and machine learning.",
-                "Mini AI is a compact AI model created using PyTorch. I've been trained on text about neural networks, deep learning, and AI concepts. I'm optimized for size while remaining informative."
+            history: [
+                "That's a historical question! The story behind {topic} goes back to {time}. It evolved significantly over the years, especially during {period}.",
+                "Great question about history! {topic} originated in {time} when {event}. It has changed considerably since then.",
+                "History tells us that {topic} began in {time}. The key developments happened during {period} when {event}."
             ],
             
-            howworks: [
-                "I work by processing text input and predicting what words should come next based on patterns I learned during training. My transformer architecture uses attention mechanisms to understand context.",
-                "As a language model, I analyze your input and generate responses by predicting likely next words based on my training. I use self-attention to understand relationships between words.",
-                "My architecture uses multiple layers of attention mechanisms to process text. I was trained on AI-related content, so I can discuss those topics with reasonable accuracy."
+            science: [
+                "From a scientific perspective, {topic} involves {explanation}. Scientists have studied this extensively and made many discoveries.",
+                "Science explains {topic} through {explanation}. It's a fascinating field with ongoing research and new findings.",
+                "That's a scientific question! The current understanding is that {topic} works through {explanation}. There are still many mysteries to explore."
             ],
             
-            capabilities: [
-                "I can discuss AI, machine learning, deep learning, neural networks, NLP, and related topics. I can explain concepts, answer questions, and help you understand AI fundamentals.",
-                "My strengths include explaining AI concepts, discussing machine learning techniques, describing neural network architectures, and answering questions about artificial intelligence.",
-                "I can help you learn about: neural networks, deep learning, transformers, NLP, computer vision, reinforcement learning, and general AI concepts."
+            technology: [
+                "In technology, {topic} refers to {explanation}. It's part of the digital revolution that's changing how we live and work.",
+                "Technology-wise, {topic} involves {explanation}. It's one of the many innovations shaping our future.",
+                "From a tech perspective: {topic} is {explanation}. The implications for society are significant."
             ],
             
-            general: [
-                "That's an interesting question! I'd be happy to discuss AI topics with you. Try asking me about machine learning, deep learning, neural networks, or transformers.",
-                "I focus on AI and machine learning topics. Feel free to ask me about neural networks, deep learning, NLP, or other AI concepts!",
-                "I'm best at discussing artificial intelligence and machine learning. What would you like to learn about?"
+            opinion: [
+                "That's a thought-provoking question! Based on what I know, many people believe {opinion}. However, perspectives vary widely on this topic.",
+                "That's subjective, but here's what I understand: {opinion}. It's important to consider multiple viewpoints.",
+                "Great question! {opinion}. Different people have different views, and that's okay."
+            ],
+            
+            fact: [
+                "Here's an interesting fact: {fact}. It's one of those things that makes {topic} so fascinating!",
+                "Did you know? {fact}. This is a key aspect of {topic} that many people find surprising.",
+                "That's a fact! {fact}. It's an important detail to understand about {topic}."
+            ],
+            
+            help: [
+                "I'd be happy to help! Here's what I know: {response}. What specific aspect would you like to know more about?",
+                "Sure thing! Let me explain: {response}. Feel free to ask more questions!",
+                "Absolutely! {response} Don't hesitate to ask if you need clarification!"
+            ],
+            
+            weather: [
+                "I'm not able to check the weather, but I hope it's nice wherever you are! You could try a weather app for accurate forecasts.",
+                "I can't access live weather data, but I hope it's a good day! Would you like to chat about something else?",
+                "I don't have access to real-time weather information, but I can tell you it's always a great day for learning! What would you like to know?"
+            ],
+            
+            math: [
+                "That's a math question! The answer involves {calculation}. Let me think through it step by step...",
+                "Math problem! Here's how to approach that: {calculation}. The solution is {answer}.",
+                "Great question! Let's work through this: {calculation}. The answer is {answer}."
+            ],
+            
+            default: [
+                "That's an interesting question! From what I know, {response}. Would you like me to elaborate on any specific aspect?",
+                "Great question! Here's my understanding: {response}. Feel free to ask for more details!",
+                "I appreciate that question! My knowledge suggests: {response}. Let me know if you'd like to explore further!"
             ]
         };
         
-        // Keyword mappings
-        const keywords = {
-            greetings: ['hi', 'hello', 'hey', 'greetings', 'howdy', 'hiya'],
-            whatisai: ['what is ai', 'what is artificial', 'define ai', 'explain ai', 'ai means', 'ai stands'],
-            whatisml: ['what is machine learning', 'define ml', 'machine learning means', 'explain ml', 'ml is'],
-            whatisdeeplearning: ['what is deep learning', 'define deep learning', 'deep learning means', 'explain deep learning', 'dl is'],
-            whatisnn: ['what is neural network', 'define neural', 'neural network means', 'explain neural', 'nn is', 'neural net'],
-            whatistransformer: ['what is transformer', 'transformer model', 'transformer architecture', 'attention mechanism', 'self-attention'],
-            whatisnlp: ['what is nlp', 'natural language processing', 'define nlp', 'nlp means', 'text processing'],
-            whatisreinforcement: ['what is reinforcement', 'rl learning', 'reinforcement learning', 'reward based'],
-            whatiscv: ['what is computer vision', 'cv is', 'image recognition', 'object detection', 'visual recognition'],
-            whatisgpt: ['what is gpt', 'gpt model', 'chatgpt', 'language model', 'generative ai', 'llm'],
-            about: ['who are you', 'what are you', 'who is this', 'about you', 'your name', 'what is mini ai'],
-            howworks: ['how do you work', 'how does ai work', 'how does ml work', 'how you work', 'your mechanism'],
-            capabilities: ['what can you do', 'what can you help', 'your capabilities', 'your abilities', 'what do you know']
+        // Topic knowledge base
+        const knowledge = {
+            // Technology
+            'computer': 'machines that process information according to instructions, forming the foundation of modern technology',
+            'internet': 'a global network of interconnected computers that share data and communicate with each other',
+            'software': 'programs and applications that run on computers, enabling specific tasks',
+            'hardware': 'physical components of computers and electronic devices',
+            'phone': 'a communication device that allows people to connect across distances',
+            'computer': 'an electronic machine that processes data according to instructions',
+            'ai': 'artificial intelligence - machines designed to mimic human intelligence and perform tasks',
+            'machine learning': 'a type of AI where systems learn from data to improve performance',
+            'deep learning': 'neural networks with multiple layers that can learn complex patterns',
+            'neural network': 'computing systems inspired by biological brains, using interconnected nodes',
+            'python': 'a popular programming language known for its simplicity and readability',
+            'javascript': 'a programming language primarily used for web development',
+            'website': 'a collection of web pages accessible via the internet',
+            'code': 'instructions written in programming languages that computers can execute',
+            'programming': 'the process of creating software using programming languages',
+            'developer': 'a person who creates software and applications',
+            'app': 'application software designed to perform specific tasks',
+            'game': 'an interactive form of entertainment played on computers or devices',
+            
+            // Science
+            'science': 'the systematic study of the natural world through observation and experimentation',
+            'physics': 'the study of matter, energy, and the fundamental laws of nature',
+            'chemistry': 'the study of matter and the changes it undergoes',
+            'biology': 'the study of living organisms and their interactions',
+            'mathematics': 'the abstract science of number, quantity, and space',
+            'earth': 'the third planet from the sun, our home',
+            'sun': 'the star at the center of our solar system',
+            'moon': 'Earth\'s natural satellite that orbits around us',
+            'water': 'a compound essential for life, made of hydrogen and oxygen',
+            'air': 'the mixture of gases surrounding Earth that we breathe',
+            'life': 'the condition that distinguishes living organisms from non-living matter',
+            'dna': 'deoxyribonucleic acid - the molecule carrying genetic instructions',
+            'cell': 'the basic structural and functional unit of all living organisms',
+            'brain': 'the central organ of the nervous system, responsible for thinking and control',
+            'universe': 'all of space, time, and everything contained within it',
+            'energy': 'the capacity to do work or cause change',
+            'gravity': 'the force that attracts objects toward each other',
+            'light': 'electromagnetic radiation that allows us to see',
+            'sound': 'vibrations that travel through air or other mediums',
+            
+            // Society
+            'human': 'a person, a member of the species Homo sapiens',
+            'people': 'human beings in general or considered collectively',
+            'society': 'a community of people living together with shared customs and laws',
+            'education': 'the process of learning and teaching',
+            'school': 'an institution where people go to learn',
+            'family': 'a group of related people, typically parents and children',
+            'friend': 'a person with whom one has a bond of mutual affection',
+            'work': 'effort directed toward a goal or purpose',
+            'money': 'a medium of exchange for goods and services',
+            'food': 'substances consumed for nourishment and energy',
+            'health': 'the state of being free from illness or injury',
+            'time': 'the continued sequence of existence and events',
+            'world': 'the earth and all the people and things on it',
+            'country': 'a nation with its own government and territory',
+            'city': 'a large town, typically with its own local government',
+            'home': 'a place where one lives, especially with family',
+            
+            // General concepts
+            'love': 'an intense feeling of deep affection',
+            'happiness': 'the state of being happy or content',
+            'idea': 'a thought or suggestion about a possible course of action',
+            'question': 'a sentence worded to elicit information',
+            'answer': 'something said or written in reaction to a question',
+            'problem': 'a matter or situation regarded as unwelcome or harmful',
+            'solution': 'a means of solving a problem or difficulty',
+            'information': 'facts provided or learned about something',
+            'knowledge': 'information and skills acquired through experience or education',
+            'learning': 'the acquisition of knowledge or skills through study or experience',
+            'memory': 'the faculty by which the mind stores and remembers information',
+            'language': 'the method of human communication using words',
+            'word': 'a single distinct unit of language',
+            'book': 'a written or printed work consisting of pages',
+            'music': 'vocal or instrumental sounds combined to produce beauty',
+            'art': 'the expression or application of human creative skill',
+            'story': 'an account of imaginary or real people and events',
+            'movie': 'a film showing moving pictures with sound',
+            'sport': 'an activity involving physical exertion and skill',
+            'game': 'a form of play or sport, especially a competitive one',
+            
+            // Actions
+            'eat': 'to put food into the mouth and chew and swallow',
+            'drink': 'to take liquid into the mouth and swallow',
+            'sleep': 'to rest with eyes closed, in a state of rest',
+            'walk': 'to move at a regular pace by lifting and setting down feet',
+            'run': 'to move at a speed faster than a walk',
+            'think': 'to have a particular opinion or belief',
+            'know': 'to have knowledge or information in the mind',
+            'understand': 'to perceive the intended meaning of words or speaker',
+            'learn': 'to gain knowledge or skill through study or experience',
+            'create': 'to bring something into existence',
+            'make': 'to cause something to exist or happen',
+            'help': 'to make it easier for someone to do something',
+            'talk': 'to say words in order to express thoughts',
+            'read': 'to look at and comprehend written or printed matter',
+            'write': 'to form letters, words, or symbols on a surface',
+            'watch': 'to look at or observe attentively',
+            'listen': 'to give attention to sound',
+            'play': 'to engage in activity for enjoyment',
+            'work': 'to be engaged in physical or mental activity',
+            'study': 'to devote time to acquiring knowledge'
         };
+        
+        const calculations = {
+            'addition': 'adding the numbers together',
+            'subtraction': 'subtracting one number from another',
+            'multiplication': 'multiplying numbers together',
+            'division': 'dividing one number by another'
+        };
+        
+        function getKnowledge(topic) {
+            for (const [key, value] of Object.entries(knowledge)) {
+                if (topic.includes(key)) {
+                    return { term: key, meaning: value };
+                }
+            }
+            return null;
+        }
         
         function findBestResponse(input) {
             const lowerInput = input.toLowerCase().trim();
             
-            // Check for greeting first
-            for (const greeting of keywords.greetings) {
-                if (lowerInput.includes(greeting)) {
-                    return responses.greetings[Math.floor(Math.random() * responses.greetings.length)];
+            // Greetings
+            const greetings = ['hi', 'hello', 'hey', 'greetings', 'howdy', 'hiya', 'sup', 'wassup'];
+            for (const g of greetings) {
+                if (lowerInput === g || lowerInput.startsWith(g + ' ')) {
+                    return getRandom(responses.greetings);
                 }
             }
             
-            // Check each keyword category
-            for (const [category, words] of Object.entries(keywords)) {
-                if (category === 'greetings') continue;
-                for (const word of words) {
-                    if (lowerInput.includes(word)) {
-                        const categoryResponses = responses[category];
-                        return categoryResponses[Math.floor(Math.random() * categoryResponses.length)];
+            // Who are you
+            if (lowerInput.includes('who are you') || lowerInput.includes('what are you') || lowerInput.includes('your name')) {
+                return getRandom(responses.whoareyou);
+            }
+            
+            // How are you
+            if (lowerInput.includes('how are you') || lowerInput.includes('how do you do')) {
+                return getRandom(responses.howareyou);
+            }
+            
+            // Thank you
+            const thanks = ['thank you', 'thanks', 'thx', 'appreciate'];
+            for (const t of thanks) {
+                if (lowerInput.includes(t)) {
+                    return getRandom(responses.thankyou);
+                }
+            }
+            
+            // Goodbye
+            const byes = ['bye', 'goodbye', 'see you', 'later', 'farewell'];
+            for (const b of byes) {
+                if (lowerInput.startsWith(b)) {
+                    return getRandom(responses.bye);
+                }
+            }
+            
+            // What is X
+            if (lowerInput.startsWith('what is') || lowerInput.startsWith('what\'s') || lowerInput.startsWith('what are')) {
+                const topicMatch = lowerInput.match(/(?:what is|what are|what's)\s+(?:the\s+)?(.+?)(?:\?|$)/);
+                if (topicMatch) {
+                    const topic = topicMatch[1].trim();
+                    const knowledgeItem = getKnowledge(topic);
+                    if (knowledgeItem) {
+                        const templates = responses.definition;
+                        let response = templates[Math.floor(Math.random() * templates.length)];
+                        response = response.replace(/{term}/g, knowledgeItem.term);
+                        response = response.replace(/{meaning}/g, knowledgeItem.meaning);
+                        response = response.replace(/{context}/g, 'various fields');
+                        response = response.replace(/{importance}/g, 'understanding the world');
+                        response = response.replace(/{related}/g, 'many related concepts');
+                        return response;
                     }
                 }
+                return getRandom(responses.whatis).replace('{topic}', topicMatch ? topicMatch[1] : 'that').replace('{definition}', 'something interesting');
             }
             
-            // Check for AI-related terms
-            if (lowerInput.includes('ai') || lowerInput.includes('artificial') || lowerInput.includes('intelligence')) {
-                return responses.whatisai[Math.floor(Math.random() * responses.whatisai.length)];
+            // Why questions
+            if (lowerInput.startsWith('why')) {
+                const templates = responses.why;
+                let response = templates[Math.floor(Math.random() * templates.length)];
+                response = response.replace('{topic}', 'that');
+                response = response.replace('{reason}', 'historical context, practical considerations, and philosophical perspectives');
+                return response;
             }
             
-            // Default to general response
-            return responses.general[Math.floor(Math.random() * responses.general.length)];
+            // How questions
+            if (lowerInput.startsWith('how')) {
+                const templates = responses.how;
+                let response = templates[Math.floor(Math.random() * templates.length)];
+                response = response.replace('{explanation}', 'various interconnected processes and factors working together');
+                return response;
+            }
+            
+            // Can you questions
+            if (lowerInput.startsWith('can you')) {
+                const templates = responses.canyou;
+                let response = templates[Math.floor(Math.random() * templates.length)];
+                response = response.replace('{response}', 'I can try to help with that based on what I know');
+                return response;
+            }
+            
+            // Weather questions
+            if (lowerInput.includes('weather') || lowerInput.includes('temperature') || lowerInput.includes('rain') || lowerInput.includes('sunny')) {
+                return getRandom(responses.weather);
+            }
+            
+            // Math questions
+            if (lowerInput.includes('calculate') || lowerInput.includes(' plus ') || lowerInput.includes(' minus ') || 
+                lowerInput.includes(' times ') || lowerInput.includes(' divided ') || /\d+\s*[+\-*/]\s*\d+/.test(lowerInput)) {
+                return getRandom(responses.math).replace('{calculation}', 'working through the numbers').replace('{answer}', 'the result of the calculation');
+            }
+            
+            // Help requests
+            if (lowerInput.includes('help') || lowerInput.includes('explain') || lowerInput.includes('tell me about')) {
+                const templates = responses.help;
+                let response = templates[Math.floor(Math.random() * templates.length)];
+                response = response.replace('{response}', 'I can provide information on many topics including science, technology, history, and more');
+                return response;
+            }
+            
+            // Try to find relevant knowledge
+            const knowledgeItem = getKnowledge(lowerInput);
+            if (knowledgeItem) {
+                const templates = responses.definition;
+                let response = templates[Math.floor(Math.random() * templates.length)];
+                response = response.replace(/{term}/g, knowledgeItem.term);
+                response = response.replace(/{meaning}/g, knowledgeItem.meaning);
+                response = response.replace(/{context}/g, 'various contexts');
+                response = response.replace(/{importance}/g, 'understanding the world around us');
+                response = response.replace(/{related}/g, 'many related ideas');
+                return response;
+            }
+            
+            // Default - general helpful response
+            const templates = responses.default;
+            let response = templates[Math.floor(Math.random() * templates.length)];
+            response = response.replace('{response}', "I understand you're asking about something interesting. While I may not have all the details, I'd be happy to discuss what I know or help you find more information");
+            return response;
+        }
+        
+        function getRandom(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
         }
         
         // Chat functionality
@@ -405,8 +638,8 @@
             
             // Disable button while generating
             sendButton.disabled = true;
-            sendButton.innerHTML = 'Generating<span class="loading"></span>';
-            setStatus('Generating response...', 'loading');
+            sendButton.innerHTML = 'Thinking<span class="loading"></span>';
+            setStatus('Thinking...', 'loading');
             
             // Generate response
             setTimeout(() => {
@@ -415,10 +648,10 @@
                 setStatus('Ready');
                 sendButton.disabled = false;
                 sendButton.innerHTML = 'Send';
-            }, 300 + Math.random() * 500);
+            }, 200 + Math.random() * 400);
         }
         
-        setStatus('Ready • Ask me about AI!');
+        setStatus('Ready • Ask me anything!');
     </script>
 </body>
 </html>
